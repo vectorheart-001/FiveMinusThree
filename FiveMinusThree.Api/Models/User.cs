@@ -10,9 +10,7 @@ namespace FiveMinusThree.Api.Models
         public string Email { get; set; }
         public string Password { get; set; }
         public virtual List<Post> Posts { get; set; }
-        public virtual List<Comment> Comments { get; set; }
-       
-        
+        public virtual List<Reply> Replies { get; set; }
     }
     
 }

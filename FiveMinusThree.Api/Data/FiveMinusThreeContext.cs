@@ -9,17 +9,26 @@ namespace FiveMinusThree.Api.Data
         {
 
         }
-        DbSet<User> Users { get; set; }
-        DbSet<Post> Posts { get; set; }
-        DbSet<Theme> Themes { get; set; }
-        DbSet<Comment> Comments { get; set; }
-        DbSet<RefreshToken> RefreshTokens{get;set;}
+        public DbSet<User> Users { get; set; }
+        public DbSet<Post> Posts { get; set; }
+        public DbSet<Theme> Themes { get; set; }
+        public DbSet<Reply> Replies { get; set; }
+        public DbSet<RefreshToken> RefreshTokens{get;set;}
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            builder.Entity<Post>().HasOne(u => u.User).WithMany(c => c.Posts).HasForeignKey(u => u.UserId).IsRequired(false).OnDelete(DeleteBehavior.SetNull);
-            builder.Entity<Post>().HasMany(u => u.Comments).WithOne(c => c.Post).HasForeignKey(u => u.PostId).OnDelete(DeleteBehavior.Cascade);
-            builder.Entity<Comment>().HasOne(u => u.User).WithMany(c => c.Comments).HasForeignKey(u => u.UserId).OnDelete(DeleteBehavior.Cascade);
+            builder.Entity<User>()
+                 .HasMany(c => c.Posts)
+                 .WithOne(c => c.User)
+                 .HasForeignKey(c => c.UserId)
+                 .IsRequired(false)
+                 .OnDelete(DeleteBehavior.SetNull);
 
+            builder.Entity<Reply>()
+                .HasOne(c => c.User)
+               .WithMany(c => c.Replies)
+               .HasForeignKey(c => c.UserId)
+               .IsRequired(false)
+               .OnDelete(DeleteBehavior.SetNull);
         }
     }
 }

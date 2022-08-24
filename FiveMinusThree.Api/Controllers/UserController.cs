@@ -1,12 +1,12 @@
 ﻿using FiveMinusThree.Api.DTOs.UserDTO;
 using FiveMinusThree.Api.Repository;
-using FiveMinusThree.Api.Repository.TokenGenerators;
 using FiveMinusThree.Api.Models;
-using FiveMinusThree.Api.Repository.TokenValidator;
 using FiveMinusThree.Api.Repository.RefreshTokenRepository;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
+using FiveMinusThree.Api.Services.TokenServices.TokenGenerators;
+using FiveMinusThree.Api.Services.TokenServices.TokenValidator;
 
 namespace FiveMinusThree.Api.Controllers
 {
@@ -55,7 +55,7 @@ namespace FiveMinusThree.Api.Controllers
                 Name = request.Name,
                 Password = request.Password,
             };
-            _userRepository.Create(user);
+            await _userRepository.Create(user);
             return Ok();
 
 
@@ -111,7 +111,7 @@ namespace FiveMinusThree.Api.Controllers
            
            if(userId.ToString() == "00000000-0000-0000-0000-000000000000")
            {
-                return BadRequest("What the fuck?");
+                return BadRequest("Invalid token");
            }
            return Ok("LoggedOut");
         }

@@ -16,6 +16,6 @@ namespace FiveMinusThree.Api.Models
         public virtual User User { get; set; }
         
         public Guid? UserId { get; set; }
-        public virtual List<Comment>? Comments { get; set; }
+        
     }
 }

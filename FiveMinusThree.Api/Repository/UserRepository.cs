@@ -1,31 +1,36 @@
-﻿using FiveMinusThree.Api.Models;
+﻿using FiveMinusThree.Api.Data;
+using Microsoft.EntityFrameworkCore;
+using FiveMinusThree.Api.Models;
 namespace FiveMinusThree.Api.Repository
 {
     public class UserRepository : IUserRepository
     {
-        private readonly List<User> users = new List<User>();
-        public Task<User> Create(User user)
+        protected readonly FiveMinusThreeContext _context;
+        public UserRepository(FiveMinusThreeContext context)
         {
-            user.Id = Guid.NewGuid();
-            users.Add(user);
-            return Task.FromResult(user);
+            _context = context;
         }
 
-        public Task<User> GetByEmail(string email)
+        public async Task Create(User user)
         {
-            return Task.FromResult(users.FirstOrDefault(u => u.Email == email));
+             _context.Users.Add(user);
+             await _context.SaveChangesAsync();
         }
 
-        public Task<User> GetByUserName(string name)
+        public async Task<User> GetByEmail(string email)
         {
-            return Task.FromResult(users.FirstOrDefault(u => u.Name == name));
+            return await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
+        }
 
+        public async Task<User> GetByUserName(string name)
+        {
+            return await _context.Users.FirstOrDefaultAsync(u => u.Name == name);
         }
        
 
-        Task<User> IUserRepository.GetById(Guid id)
+        async Task<User> IUserRepository.GetById(Guid id)
         {
-            return Task.FromResult(users.FirstOrDefault(u => u.Id == id));
+             return await _context.Users.FindAsync(id);
         }
     }
 }

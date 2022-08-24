@@ -5,7 +5,8 @@
         public Guid Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public  virtual List<Post> Posts { get; set; }
-        //Many-to-many realtionship
+        //One-to-many realtionship
+        public virtual List<Post> Posts { get; set; }
+        
     }
 }

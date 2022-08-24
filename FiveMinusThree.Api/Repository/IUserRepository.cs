@@ -5,7 +5,7 @@ namespace FiveMinusThree.Api.Repository
     {
         Task<User> GetByEmail(string email);
         Task<User> GetByUserName(string name);
-        Task<User> Create(User user);
+        Task Create(User user);
         Task<User> GetById(Guid id);
     }
 }
